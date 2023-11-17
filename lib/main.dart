@@ -39,10 +39,10 @@ final GoRouter _router = GoRouter(routes: [
     path: "/main-page",
     builder: (context, state) => const MainPage(),
   ),
-  GoRoute(
-    path: "/home",
-    builder: (context, state) => const Dashboard(),
-  ),
+  // GoRoute(
+  //   path: "/home",
+  //   builder: (context, state) => const Dashboard(),
+  // ),
   GoRoute(
     path: "/user-onboarding1",
     builder: (context, state) => const UserOnboardingPage1(),

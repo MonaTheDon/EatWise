@@ -1,3 +1,4 @@
+import 'package:eatwise/features/dashboard/pages/dashboard.dart';
 import 'package:eatwise/features/dashboard/provider/nav_bar_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
@@ -20,9 +21,7 @@ class MainPage extends StatelessWidget {
           Container(
             color: Colors.green,
           ),
-          Container(
-            color: Colors.blue,
-          ),
+          MealPlanner(),
           Container(
             color: Colors.yellow,
           ),
