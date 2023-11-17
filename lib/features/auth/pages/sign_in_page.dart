@@ -2,7 +2,12 @@ import 'package:eatwise/constants.dart';
 import 'package:eatwise/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/auth_provider.dart';
+import '../provider/user_provider.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -16,6 +21,18 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
+
+    final usernameController = TextEditingController();
+    final passwordController = TextEditingController();
+
+    dispose() {
+      usernameController.dispose();
+      passwordController.dispose();
+      super.dispose();
+    }
+
     return Scaffold(
         body: SafeArea(
       child: Padding(
@@ -51,6 +68,7 @@ class _SignInPageState extends State<SignInPage> {
                   SizedBox(
                     height: 40.h,
                     child: TextFormField(
+                      controller: usernameController,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -78,6 +96,8 @@ class _SignInPageState extends State<SignInPage> {
                   SizedBox(
                     height: 40.h,
                     child: TextFormField(
+                      controller: passwordController,
+                      obscureText: true,
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -109,8 +129,23 @@ class _SignInPageState extends State<SignInPage> {
               width: double.infinity,
               height: 38.h,
               child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      final userCreds = await authProvider.signInWithEmail(
+                        usernameController.text,
+                        passwordController.text,
+                      );
+                      if (userCreds != null) {
+                        final user =
+                            await AuthProvider.getUser(userCreds.user!.uid);
+                        if (user != null) {
+                          userProvider.appUser = user;
+                          if (mounted) GoRouter.of(context).go("/home");
+                        } else {
+                          Fluttertoast.showToast(msg: "User not found");
+                        }
+                      }
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: backgroundBlue,

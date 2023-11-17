@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eatwise/constants.dart';
 import 'package:eatwise/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../../auth/provider/user_provider.dart';
 
 class UserOnboardingPage1 extends StatefulWidget {
   const UserOnboardingPage1({super.key});
@@ -36,6 +40,7 @@ class _UserOnboardingPage1State extends State<UserOnboardingPage1> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -87,6 +92,7 @@ class _UserOnboardingPage1State extends State<UserOnboardingPage1> {
                         child: TextField(
                           controller: heightController,
                           textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                               filled: true,
                               fillColor: white,
@@ -102,6 +108,18 @@ class _UserOnboardingPage1State extends State<UserOnboardingPage1> {
                                 fontSize: 16.sp,
                                 color: hintGrey,
                               )),
+                          onSubmitted: (value) {
+                            if (heightController.text.isNotEmpty &&
+                                weightController.text.isNotEmpty) {
+                              double height =
+                                  double.parse(heightController.text);
+                              double weight =
+                                  double.parse(weightController.text);
+                              double bmi =
+                                  weight / ((height / 100) * (height / 100));
+                              bmiController.text = bmi.toStringAsFixed(2);
+                            }
+                          },
                         ),
                       ),
                     ),
@@ -112,6 +130,7 @@ class _UserOnboardingPage1State extends State<UserOnboardingPage1> {
                       child: TextField(
                         controller: weightController,
                         textAlignVertical: TextAlignVertical.center,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                             filled: true,
                             fillColor: white,
@@ -127,6 +146,16 @@ class _UserOnboardingPage1State extends State<UserOnboardingPage1> {
                               fontSize: 16.sp,
                               color: hintGrey,
                             )),
+                        onSubmitted: (value) {
+                          if (heightController.text.isNotEmpty &&
+                              weightController.text.isNotEmpty) {
+                            double height = double.parse(heightController.text);
+                            double weight = double.parse(weightController.text);
+                            double bmi =
+                                weight / ((height / 100) * (height / 100));
+                            bmiController.text = bmi.toStringAsFixed(2);
+                          }
+                        },
                       ),
                     ))
                   ],
@@ -340,6 +369,19 @@ class _UserOnboardingPage1State extends State<UserOnboardingPage1> {
                           bmiController.text.isNotEmpty &&
                           selectedGender != null &&
                           allergies.isNotEmpty) {
+                        userProvider.user!.height =
+                            double.parse(heightController.text);
+                        userProvider.user!.weight =
+                            double.parse(weightController.text);
+                        userProvider.user!.age = int.parse(ageController.text);
+                        userProvider.user!.BMI =
+                            double.parse(bmiController.text);
+                        userProvider.user!.gender = selectedGender;
+                        userProvider.user!.allergies = allergies;
+                        FirebaseFirestore.instance
+                            .collection("users")
+                            .doc(userProvider.user!.uid)
+                            .update(userProvider.user!.toMap());
                         GoRouter.of(context).push("/user-onboarding2");
                       } else {
                         debugPrint(heightController.text.isNotEmpty.toString());

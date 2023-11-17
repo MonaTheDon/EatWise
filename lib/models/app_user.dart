@@ -17,6 +17,7 @@ class AppUser {
   String? healthGoal;
   List<String>? likedCuisines;
   List<String>? recipeTypePreference;
+  List<String>? likedTastes;
   AppUser({
     this.uid,
     this.name,
@@ -33,6 +34,7 @@ class AppUser {
     this.healthGoal,
     this.likedCuisines,
     this.recipeTypePreference,
+    this.likedTastes,
   });
 
   Map<String, dynamic> toMap() {
@@ -52,6 +54,7 @@ class AppUser {
       'healthGoal': healthGoal,
       'likedCuisines': likedCuisines,
       'recipeTypePreference': recipeTypePreference,
+      'likedTastes': likedTastes,
     };
   }
 
@@ -67,7 +70,7 @@ class AppUser {
       BMI: map['BMI'] != null ? map['BMI'] as double : null,
       gender: map['gender'] != null ? map['gender'] as String : null,
       allergies: map['allergies'] != null
-          ? List<String>.from((map['allergies'] as List<String>))
+          ? List<String>.from((map['allergies'] as List<dynamic>))
           : null,
       activityLevel:
           map['activityLevel'] != null ? map['activityLevel'] as String : null,
@@ -77,10 +80,13 @@ class AppUser {
       healthGoal:
           map['healthGoal'] != null ? map['healthGoal'] as String : null,
       likedCuisines: map['likedCuisines'] != null
-          ? List<String>.from((map['likedCuisines'] as List<String>))
+          ? List<String>.from((map['likedCuisines'] as List<dynamic>))
           : null,
       recipeTypePreference: map['recipeTypePreference'] != null
-          ? List<String>.from((map['recipeTypePreference'] as List<String>))
+          ? List<String>.from((map['recipeTypePreference'] as List<dynamic>))
+          : null,
+      likedTastes: map['likedTastes'] != null
+          ? List<String>.from((map['likedTastes'] as List<dynamic>))
           : null,
     );
   }

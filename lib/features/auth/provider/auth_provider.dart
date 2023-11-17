@@ -85,7 +85,8 @@ class AuthProvider with ChangeNotifier {
       return result;
     } on FirebaseAuthException catch (firebaseAuthException) {
       Fluttertoast.showToast(msg: firebaseAuthException.message.toString());
-      print(firebaseAuthException.message);
+      print(
+          "${firebaseAuthException.message} error at line 88 auth_provider.dart");
       return null;
     }
   }

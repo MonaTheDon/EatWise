@@ -187,25 +187,28 @@ class _SignUpPageState extends State<SignUpPage> {
                         child: ElevatedButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                // final userCreds =
-                                //     await authProvider.registerUserWithEmail(
-                                //         usernameController.text,
-                                //         passwordController.text);
-                                // if (userCreds != null) {
-                                //   final appUser = AppUser(
-                                //     uid: userCreds.user!.uid,
-                                //     name: nameController.text,
-                                //     username: usernameController.text,
-                                //   );
-                                //   debugPrint(appUser.toMap().toString());
-                                //   await AuthProvider.registerUser(appUser);
+                                final userCreds =
+                                    await authProvider.registerUserWithEmail(
+                                        usernameController.text,
+                                        passwordController.text);
+                                if (userCreds != null) {
+                                  final appUser = AppUser(
+                                      uid: userCreds.user!.uid,
+                                      name: nameController.text,
+                                      username: usernameController.text,
+                                      email:
+                                          "${usernameController.text}@eatwise.com");
+                                  debugPrint(appUser.toMap().toString());
+                                  await AuthProvider.registerUser(appUser);
 
-                                //   if (mounted) {
-                                //     userProvider.appUser = appUser;
-                                //     authProvider.setAuthenticated(
-                                //         true, userCreds.user);
-                                GoRouter.of(context).push("/user-onboarding1");
-                                // }
+                                  if (mounted) {
+                                    userProvider.appUser = appUser;
+                                    authProvider.setAuthenticated(
+                                        true, userCreds.user);
+                                    GoRouter.of(context)
+                                        .push("/user-onboarding1");
+                                  }
+                                }
                               }
                             },
                             style: ElevatedButton.styleFrom(
