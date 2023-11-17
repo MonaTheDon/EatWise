@@ -1,5 +1,6 @@
 import 'package:eatwise/constants.dart';
 import 'package:eatwise/features/dashboard/pages/dashboard.dart';
+import 'package:eatwise/features/dashboard/provider/recipe_provider.dart';
 import 'package:eatwise/features/onboarding/pages/user_onboarding1.dart';
 import 'package:eatwise/features/onboarding/pages/user_onboarding2.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -62,7 +63,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(create: (_) => NavBarProvider())
+        ChangeNotifierProvider(create: (_) => NavBarProvider()),
+        ChangeNotifierProvider(create: (_) => RecipeProvider()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 640),

@@ -2,10 +2,10 @@ import 'dart:convert';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class Recipe {
-  int? recipeId;
+  String? recipeId;
   String? recipeName;
-  int? cookTime; //total_time key is taken
-  int? servings;
+  String? cookTime; //total_time key is taken
+  String? servings;
   bool? isVegan;
   String? imageUrl;
   String? subRegion;
@@ -59,11 +59,11 @@ class Recipe {
 
   factory Recipe.fromMap(Map<String, dynamic> map) {
     return Recipe(
-      recipeId: map['recipe_id'] != null ? map['recipe_id'] as int : null,
+      recipeId: map['recipe_id'] != null ? map['recipe_id'] as String : null,
       recipeName:
           map['recipe_title'] != null ? map['recipe_title'] as String : null,
-      cookTime: map['total_time'] != null ? map['total_time'] as int : null,
-      servings: map['servings'] != null ? map['servings'] as int : null,
+      cookTime: map['total_time'] != null ? map['total_time'] as String : null,
+      servings: map['servings'] != null ? map['servings'] as String : null,
       isVegan:
           map['vegan'] != null ? (map['vegan'] == 0.0 ? false : true) : null,
       imageUrl: map['img_url'] != null ? map['img_url'] as String : null,
@@ -79,7 +79,7 @@ class Recipe {
           ? formatUtensils(map['utensils'] as String)
           : null,
       ingredients: map['ingredients'] != null
-          ? List<String>.from((map['ingredients'] as List<String>))
+          ? List<String>.from((map['ingredients'] as List<dynamic>))
           : null,
     );
   }

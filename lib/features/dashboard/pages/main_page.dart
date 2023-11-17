@@ -1,3 +1,4 @@
+import 'package:eatwise/features/auth/provider/user_provider.dart';
 import 'package:eatwise/features/dashboard/pages/dashboard.dart';
 import 'package:eatwise/features/dashboard/provider/nav_bar_provider.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +6,20 @@ import 'package:flutter_material_design_icons/flutter_material_design_icons.dart
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   const MainPage({super.key});
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<UserProvider>(context, listen: false).updateNutrientsMap();
+  }
 
   @override
   Widget build(BuildContext context) {
