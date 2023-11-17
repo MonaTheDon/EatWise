@@ -465,7 +465,7 @@ class _UserOnboardingPage2State extends State<UserOnboardingPage2> {
                       while (GoRouter.of(context).canPop()) {
                         GoRouter.of(context).pop();
                       }
-                      GoRouter.of(context).go('/home');
+                      GoRouter.of(context).go('/main-page');
                     },
                     child: Text(
                       "Continue",

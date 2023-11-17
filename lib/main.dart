@@ -12,6 +12,8 @@ import 'features/auth/pages/sign_in_page.dart';
 import 'features/auth/pages/sign_up_page.dart';
 import 'features/auth/provider/user_provider.dart';
 
+import 'features/dashboard/pages/main_page.dart';
+import 'features/dashboard/provider/nav_bar_provider.dart';
 import 'firebase_options.dart';
 
 import './features/auth/provider/auth_provider.dart';
@@ -32,6 +34,10 @@ final GoRouter _router = GoRouter(routes: [
   GoRoute(
     path: "/sign-up",
     builder: (context, state) => const SignUpPage(),
+  ),
+  GoRoute(
+    path: "/main-page",
+    builder: (context, state) => const MainPage(),
   ),
   GoRoute(
     path: "/home",
@@ -56,6 +62,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => NavBarProvider())
       ],
       child: ScreenUtilInit(
         designSize: const Size(360, 640),

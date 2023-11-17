@@ -140,7 +140,7 @@ class _SignInPageState extends State<SignInPage> {
                             await AuthProvider.getUser(userCreds.user!.uid);
                         if (user != null) {
                           userProvider.appUser = user;
-                          if (mounted) GoRouter.of(context).go("/home");
+                          if (mounted) GoRouter.of(context).go("/main-page");
                         } else {
                           Fluttertoast.showToast(msg: "User not found");
                         }
