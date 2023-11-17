@@ -1,4 +1,7 @@
 import 'package:eatwise/features/dashboard/pages/dashboard.dart';
+import 'package:eatwise/features/dashboard/pages/matchmaker.dart';
+import 'package:eatwise/features/dashboard/pages/leftovers.dart';
+import 'package:eatwise/features/dashboard/pages/profile.dart';
 import 'package:eatwise/features/dashboard/provider/nav_bar_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
@@ -15,16 +18,10 @@ class MainPage extends StatelessWidget {
       return IndexedStack(
         index: navBarProvider.currentIndex,
         children: [
-          Container(
-            color: Colors.red,
-          ),
-          Container(
-            color: Colors.green,
-          ),
+          LeftOvers(),
+          MatchMaker(),
           MealPlanner(),
-          Container(
-            color: Colors.yellow,
-          ),
+          Profile()
         ],
       );
     }), bottomNavigationBar:
