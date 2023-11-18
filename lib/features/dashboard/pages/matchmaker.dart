@@ -1,6 +1,8 @@
 import 'package:eatwise/constants.dart';
+import 'package:eatwise/features/dashboard/repository/dashboard_repository.dart';
 import 'package:eatwise/features/dashboard/widgets/carousel_widget.dart';
 import 'package:eatwise/features/dashboard/widgets/ingredient_card.dart';
+import 'package:eatwise/models/entity.dart';
 import 'package:eatwise/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,7 +15,26 @@ class MatchMaker extends StatefulWidget {
 }
 
 class _MatchMakerState extends State<MatchMaker> {
+  List<Entity> entities = [];
+  bool _isLoading = false;
   final ingredientController = TextEditingController();
+  DashboardRepository dashboardRepository = DashboardRepository();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  void getEntitiesForText(String name) async {
+    setState(() {
+      _isLoading = true;
+    });
+    entities = await dashboardRepository.getFoodAnalysis(name);
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +96,32 @@ class _MatchMakerState extends State<MatchMaker> {
                   debugPrint(value);
                 },
                 onSubmitted: (value) {
-                  
+                  getEntitiesForText(value);
                 },
               ),
             ),
             v(height: 30.sp),
-            IngredientCard()
+            _isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: white,
+                    ),
+                  )
+                : entities.isNotEmpty
+                    ? ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (ctx, i) {
+                          return IngredientCard(entity: entities[i]);
+                        },
+                        separatorBuilder: (ctx, i) {
+                          return v(height: 5.h);
+                        },
+                        itemCount: entities.length,
+                      )
+                    : const Center(
+                        child: Text("No Matched Ingredients found"),
+                      ),
           ],
         ),
       )),

@@ -1,11 +1,14 @@
 import 'package:eatwise/constants.dart';
+import 'package:eatwise/models/entity.dart';
 import 'package:eatwise/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IngredientCard extends StatelessWidget {
-  const IngredientCard({super.key});
+  final Entity entity;
+  const IngredientCard({super.key,required this.entity});
+  
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class IngredientCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children:[
-            Text("Bread",
+            Text("$entity.entityName",
                     style: TextStyle(
                       color: darkGreen,
                       fontSize: 28.sp,
@@ -35,7 +38,7 @@ class IngredientCard extends StatelessWidget {
                     ),
                   ),
                   // v(height:1.h),
-              Text("Bakery",
+              Text("$entity.category",
               style: TextStyle(
                       color: backgroundGreen,
                       fontSize: 15.sp,

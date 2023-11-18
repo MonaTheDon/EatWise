@@ -1,11 +1,13 @@
 import 'package:eatwise/constants.dart';
+import 'package:eatwise/models/recipe.dart';
 import 'package:eatwise/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RecipeCard extends StatelessWidget {
-  const RecipeCard({super.key});
+  final Recipe recipe;
+  const RecipeCard({super.key, required this.recipe});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class RecipeCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.r),
             image: DecorationImage(
               image: NetworkImage(
-                  "https://fastly.picsum.photos/id/398/200/300.jpg?hmac=Hfi27DwRf-atKwN-O57cBXGhlUtMCe6rozr2rWH8xH8"),
+                  recipe.imageUrl!),
               fit: BoxFit.cover,
             ),
           ),
@@ -40,7 +42,7 @@ class RecipeCard extends StatelessWidget {
               Icon(MdiIcons.clockOutline, color: white, size: 20.sp),
               h(width: 5.w),
               Text(
-                "25 mins",
+                "${recipe.cookTime} mins",
                 style: TextStyle(
                   color: white,
                   fontSize: 16.sp,
@@ -56,23 +58,30 @@ class RecipeCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Biryani",
-                    style: TextStyle(
-                      color: white,
-                      fontSize: 30.sp,
-                      fontWeight: FontWeight.w600,
+                  SizedBox(
+                    width: 200.w,
+                    child: Text(
+                      recipe.recipeName!,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: white,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                  h(width: 5.w),
-                  Image.asset(
+                  // h(width: 5.w),
+                  v(height: 30.w),
+
+              Image.asset(
                     "assets/images/non-veg-marker.png",
                     scale: 4,
                   )
                 ],
               ),
+              h(width: 5.w),
             ]
           ),
       

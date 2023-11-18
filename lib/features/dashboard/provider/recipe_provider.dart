@@ -5,7 +5,9 @@ import '../repository/dashboard_repository.dart';
 
 class RecipeProvider with ChangeNotifier {
   List<Recipe> _recipesByUserPrefs = [];
+  List<Recipe> _recipeWithIng = [];
 
+  List<Recipe> get recipeWithIng => _recipeWithIng;
   List<Recipe> get recipesByUserPrefs => _recipesByUserPrefs;
 
   Future<void> getRecipesByUserPrefs({
@@ -29,6 +31,11 @@ class RecipeProvider with ChangeNotifier {
       ingredientNotUsed: ingredientNotUsed,
       categoryNotUsed: categoryNotUsed,
     );
+    notifyListeners();
+  }
+
+  Future<void> getRecipesbyIng(String ingredients) async {
+    _recipeWithIng = await DashboardRepository.getRecipesbyIng(ingredients);
     notifyListeners();
   }
 }
