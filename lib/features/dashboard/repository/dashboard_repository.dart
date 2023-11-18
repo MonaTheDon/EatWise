@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:eatwise/models/entity.dart';
+import 'package:eatwise/constants.dart';
 import 'package:eatwise/models/recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -82,5 +83,72 @@ class DashboardRepository {
       debugPrint("Response Status ${response.statusCode}");
     }
     return entities;
+  }
+
+  static Future<Recipe> getRecipeById({required String recipeId}) async {
+    Recipe recipe = Recipe();
+    final response = await http.get(Uri.parse(
+        "https://cosylab.iiitd.edu.in/rdbapi/recipeDB/getrecipe?recipeId=${recipeId}"));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      recipe = Recipe.fromMap(data);
+    } else {
+      debugPrint(response.statusCode.toString());
+      debugPrint(response.body);
+    }
+    recipe.recipeId!.isNotEmpty
+        ? debugPrint(
+            "${recipe.recipeName.toString()} ${recipe.imageUrl.toString()}}")
+        : debugPrint("No recipes found");
+    return recipe;
+  }
+
+  static Future<List<String>> getIngredientsWithPhrases(int recipeId) async {
+    List<String> ingredientPhrases = [];
+    final response = await http.get(
+        Uri.parse(
+            "https://cosylab.iiitd.edu.in/api/recipeDB/getingredientsbyrecipe/$recipeId"),
+        headers: {
+          "Authorization": "Bearer $authToken",
+        });
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as List<dynamic>;
+      debugPrint("data is $data");
+      for (int i = 0; i < data.length; i++) {
+        ingredientPhrases.add(data[i]["ingredient_Phrase"]);
+      }
+    } else {
+      debugPrint(response.statusCode.toString());
+      debugPrint(response.body);
+    }
+    ingredientPhrases.isNotEmpty
+        ? debugPrint("${ingredientPhrases.first.toString()}")
+        : debugPrint("No ingredients found");
+    return ingredientPhrases;
+  }
+
+  static Future<List<String>> getProcedureForARecipe(int id) async {
+    List<String> procedure = [];
+    final response = await http.get(
+        Uri.parse("https://cosylab.iiitd.edu.in/api/instructions/$id"),
+        headers: {
+          "Authorization": "Bearer $authToken",
+        });
+    if (response.statusCode == 200) {
+      final data = response.body;
+      procedure = data
+          .splitMapJoin(
+            RegExp(r'\. |; '),
+            onMatch: (match) => '\n', // Replace matches with a newline
+            onNonMatch: (nonMatch) => nonMatch.trim(), // Trim non-matches
+          )
+          .split('\n');
+    } else {
+      debugPrint(response.statusCode.toString());
+      debugPrint(response.body);
+    }
+    return procedure;
   }
 }

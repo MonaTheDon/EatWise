@@ -7,8 +7,11 @@ class RecipeProvider with ChangeNotifier {
   List<Recipe> _recipesByUserPrefs = [];
   List<Recipe> _recipeWithIng = [];
 
+  Recipe _recipeById = Recipe();
+
   List<Recipe> get recipeWithIng => _recipeWithIng;
   List<Recipe> get recipesByUserPrefs => _recipesByUserPrefs;
+  Recipe get recipeById => _recipeById;
 
   Future<void> getRecipesByUserPrefs({
     required List<int> calories,
