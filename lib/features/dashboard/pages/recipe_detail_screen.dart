@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:eatwise/features/dashboard/widgets/ingredients_widget.dart';
 import 'package:eatwise/features/dashboard/widgets/procedure_widget.dart';
+import 'package:eatwise/features/dashboard/widgets/review_widget.dart';
 import 'package:eatwise/models/recipe.dart';
 import 'package:eatwise/utils.dart';
 import 'package:flutter/material.dart';
@@ -188,7 +189,7 @@ class _RecipeInfoScreenState extends State<RecipeInfoScreen> {
                         ? const CircularProgressIndicator(color: white)
                         : ProcedureWidget(procedure: procedure)
                     : selectedOption == "reviews"
-                        ? Container()
+                        ? ReviewWidget()
                         : Container(),
           ],
         ),
