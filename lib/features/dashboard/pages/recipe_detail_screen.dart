@@ -92,62 +92,87 @@ class _RecipeInfoScreenState extends State<RecipeInfoScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                  decoration: BoxDecoration(
-                    color: darkGreen,
-                    borderRadius: BorderRadius.circular(5.r),
-                    border: Border.all(
-                      color:
-                          selectedOption == "ingredients" ? white : darkGreen,
-                      width: 2,
-                    ),
-                  ),
-                  child: Text(
-                    "Ingredients",
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: white,
-                    ),
-                  ),
-                ),
-                h(width: 8.w),
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                  decoration: BoxDecoration(
-                    color: darkGreen,
-                    borderRadius: BorderRadius.circular(5.r),
-                    border: Border.all(
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedOption = "ingredients";
+                    });
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                    decoration: BoxDecoration(
+                      color: darkGreen,
+                      borderRadius: BorderRadius.circular(5.r),
+                      border: Border.all(
                         color:
-                            selectedOption == "procedure" ? white : darkGreen,
-                        width: 1),
-                  ),
-                  child: Text(
-                    "Reviews",
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: white,
+                            selectedOption == "ingredients" ? white : darkGreen,
+                        width: 2,
+                      ),
+                    ),
+                    child: Text(
+                      "Ingredients",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: white,
+                      ),
                     ),
                   ),
                 ),
                 h(width: 8.w),
-                Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                  decoration: BoxDecoration(
-                    color: darkGreen,
-                    borderRadius: BorderRadius.circular(5.r),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedOption = "reviews";
+                    });
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                    decoration: BoxDecoration(
+                      color: darkGreen,
+                      borderRadius: BorderRadius.circular(5.r),
+                      border: Border.all(
+                          color:
+                              selectedOption == "reviews" ? white : darkGreen,
+                          width: 2),
+                    ),
+                    child: Text(
+                      "Reviews",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: white,
+                      ),
+                    ),
                   ),
-                  child: Text(
-                    "Procedure",
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: white,
+                ),
+                h(width: 8.w),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      selectedOption = "procedure";
+                    });
+                  },
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                    decoration: BoxDecoration(
+                      color: darkGreen,
+                      borderRadius: BorderRadius.circular(5.r),
+                      border: Border.all(
+                          color:
+                              selectedOption == "procedure" ? white : darkGreen,
+                          width: 2),
+                    ),
+                    child: Text(
+                      "Procedure",
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: white,
+                      ),
                     ),
                   ),
                 ),
