@@ -6,7 +6,10 @@ import '../repository/dashboard_repository.dart';
 class RecipeProvider with ChangeNotifier {
   List<Recipe> _recipesByUserPrefs = [];
 
+  Recipe _recipeById = Recipe();
+
   List<Recipe> get recipesByUserPrefs => _recipesByUserPrefs;
+  Recipe get recipeById => _recipeById;
 
   Future<void> getRecipesByUserPrefs({
     required List<int> calories,

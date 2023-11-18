@@ -10,6 +10,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:eatwise/models/recipe.dart';
 
+import '../pages/recipe_detail_screen.dart';
+
 class CarouselWidget extends StatefulWidget {
   final List<Recipe> recipe;
   const CarouselWidget({
@@ -29,7 +31,14 @@ class _CarouselWidgetState extends State<CarouselWidget> {
   @override
   Widget build(BuildContext context) {
     return CarouselSlider(
-      items: widget.recipe.map((e) => CarouselItem(recipe: e)).toList(),
+      items: widget.recipe
+          .map((e) => GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => RecipeInfoScreen(recipe: e)));
+              },
+              child: CarouselItem(recipe: e)))
+          .toList(),
       carouselController: _controller,
       options: CarouselOptions(
           viewportFraction: 1,
