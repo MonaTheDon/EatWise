@@ -151,4 +151,26 @@ class DashboardRepository {
     }
     return procedure;
   }
+
+  static Future<Recipe> getRecipeOfTheDay() async {
+    Recipe recipe = Recipe();
+    final response = await http.get(
+        Uri.parse("https://cosylab.iiitd.edu.in/api/recipeDB/recipeoftheday"),
+        headers: {
+          "Authorization": "Bearer $authToken",
+        });
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      recipe = Recipe.fromMap(data);
+    } else {
+      debugPrint(response.statusCode.toString());
+      debugPrint(response.body);
+    }
+    recipe.recipeId!.isNotEmpty
+        ? debugPrint(
+            "For recipe of the day ${recipe.recipeName.toString()} ${recipe.imageUrl.toString()}}")
+        : debugPrint("No recipes found");
+    return recipe;
+  }
 }

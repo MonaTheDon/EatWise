@@ -8,10 +8,13 @@ class RecipeProvider with ChangeNotifier {
   List<Recipe> _recipeWithIng = [];
 
   Recipe _recipeById = Recipe();
+  Recipe _recipeOfTheDay = Recipe();
 
   List<Recipe> get recipeWithIng => _recipeWithIng;
   List<Recipe> get recipesByUserPrefs => _recipesByUserPrefs;
+
   Recipe get recipeById => _recipeById;
+  Recipe get recipeOfTheDay => _recipeOfTheDay;
 
   Future<void> getRecipesByUserPrefs({
     required List<int> calories,
@@ -39,6 +42,11 @@ class RecipeProvider with ChangeNotifier {
 
   Future<void> getRecipesbyIng(String ingredients) async {
     _recipeWithIng = await DashboardRepository.getRecipesbyIng(ingredients);
+    notifyListeners();
+  }
+
+  Future<void> getRecipeOfTheDay() async {
+    _recipeOfTheDay = await DashboardRepository.getRecipeOfTheDay();
     notifyListeners();
   }
 }

@@ -59,11 +59,11 @@ class Recipe {
 
   factory Recipe.fromMap(Map<String, dynamic> map) {
     return Recipe(
-      recipeId: map['recipe_id'] != null ? map['recipe_id'] as String : null,
+      recipeId: map['recipe_id'] != null ? map['recipe_id'].toString() : null,
       recipeName:
           map['recipe_title'] != null ? map['recipe_title'] as String : null,
-      cookTime: map['total_time'] != null ? map['total_time'] as String : null,
-      servings: map['servings'] != null ? map['servings'] as String : null,
+      cookTime: map['total_time'] != null ? map['total_time'].toString() : null,
+      servings: map['servings'] != null ? map['servings'].toString() : null,
       isVegan:
           map['vegan'] != null ? (map['vegan'] == 0.0 ? false : true) : null,
       imageUrl: map['img_url'] != null ? map['img_url'] as String : null,

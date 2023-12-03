@@ -25,16 +25,24 @@ class AuthProvider with ChangeNotifier {
     loadAuthState();
   }
 
-  void setAuthenticated(bool value, User? user) {
+  void setAuthenticated(bool value, User? user) async {
+    final _prefs = await SharedPreferences.getInstance();
+    _prefs.setBool("isAuthenticated", value);
+    _prefs.setString("uid", user?.uid ?? "");
     _isAuthenticated = value;
     _user = user;
     notifyListeners();
   }
 
-  Future<void> loadAuthState() async {
+  Future<String?> loadAuthState() async {
     var _prefs = await SharedPreferences.getInstance();
-    _isAuthenticated = _prefs.getBool("isAuthenticated") ?? false;
-    notifyListeners();
+    var uid = _prefs.getString("uid");
+    // _isAuthenticated = _prefs.getBool("isAuthenticated") ?? false;
+    // if (_isAuthenticated) {
+    //   var uid = _prefs.getString("uid");
+    // }
+    // notifyListeners();
+    return uid;
   }
 
   static Future<void> registerUser(AppUser user) async {

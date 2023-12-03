@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             // primaryColor: kPrimaryColor,
-            scaffoldBackgroundColor: backgroundGreen,
+            scaffoldBackgroundColor: white,
             fontFamily: "Lexend",
           ),
           routerConfig: _router,
