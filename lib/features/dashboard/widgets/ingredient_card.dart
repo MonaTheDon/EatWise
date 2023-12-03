@@ -30,18 +30,22 @@ class IngredientCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children:[
-            Text("$entity.entityName",
-                    style: TextStyle(
-                      color: darkGreen,
-                      fontSize: 28.sp,
-                      fontWeight: FontWeight.w400,
+            FittedBox(
+
+              fit: BoxFit.scaleDown,
+              child: Text("${entity.entityName}",
+                      style: TextStyle(
+                        color: darkGreen,
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
+            ),
                   // v(height:1.h),
-              Text("$entity.category",
+              Text("${entity.category}",
               style: TextStyle(
                       color: backgroundGreen,
-                      fontSize: 15.sp,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.w400,
                     ),
                     )

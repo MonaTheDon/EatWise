@@ -55,8 +55,12 @@ class DashboardRepository {
   }
 
   Future<int> getIdOfAnEntity(String recName) async {
-    final response = await http.get(Uri.parse(
-        "https://cosylab.iiitd.edu.in/api/entity/getentities?name=$recName"));
+    final response = await http.get(
+        Uri.parse(
+            "https://cosylab.iiitd.edu.in/api/entity/getentities?name=$recName"),
+        headers: {
+          "Authorization": "Bearer $authToken_FlavorDB",
+        });
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body) as List<dynamic>;
       //   for(int i=0;i<data.length;i++){
@@ -72,12 +76,17 @@ class DashboardRepository {
   Future<List<Entity>> getFoodAnalysis(String recName) async {
     List<Entity> entities = [];
     final response1 = await getIdOfAnEntity(recName);
-    final response = await http.get(Uri.parse(
-        "https://cosylab.iiitd.edu.in/api/foodPairingAnalysis/${response1}"));
+    final response = await http.get(
+        Uri.parse(
+            "https://cosylab.iiitd.edu.in/api/foodPairingAnalysis/${response1}"),
+        headers: {
+          "Authorization": "Bearer $authToken_FlavorDB",
+        });
     if (response.statusCode == 200) {
-      var data = jsonDecode(response.body) as List<dynamic>;
-      for (int i = 0; i < data.length; i++) {
-        entities.add(Entity.fromMap(data[i]));
+      debugPrint(response.body);
+      var data = jsonDecode(response.body) as Map<String,dynamic>;
+      for (int i = 0; i < data['similar_entities'].length; i++) {
+        entities.add(Entity.fromMap(data['similar_entities'][i]));
       }
     } else {
       debugPrint("Response Status ${response.statusCode}");
