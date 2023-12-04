@@ -30,7 +30,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      // extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: true,
       body: Consumer<NavBarProvider>(builder: (context, navBarProvider, child) {
         return IndexedStack(
           index: navBarProvider.currentIndex,
