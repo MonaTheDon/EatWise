@@ -84,7 +84,7 @@ class DashboardRepository {
         });
     if (response.statusCode == 200) {
       debugPrint(response.body);
-      var data = jsonDecode(response.body) as Map<String,dynamic>;
+      var data = jsonDecode(response.body) as Map<String, dynamic>;
       for (int i = 0; i < data['similar_entities'].length; i++) {
         entities.add(Entity.fromMap(data['similar_entities'][i]));
       }
@@ -169,6 +169,11 @@ class DashboardRepository {
           "Authorization": "Bearer $authToken",
         });
 
+    // if (response.statusCode == 401) {
+    //   await refreshAccessToken();
+    //   await getRecipeOfTheDay();
+    // }
+
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body) as Map<String, dynamic>;
       recipe = Recipe.fromMap(data);
@@ -182,4 +187,30 @@ class DashboardRepository {
         : debugPrint("No recipes found");
     return recipe;
   }
+
+  // static Future<void> refreshAccessToken() async {
+  //   Map<String, String> jsonMap = {
+  //     "client_id": "app-ims",
+  //     "grant_type": "password",
+  //     "username": "forkit-hackathon",
+  //     "password": "forkitiiitd",
+  //     "scope": "openid",
+  //   };
+  //   String jsonStr = jsonEncode(jsonMap);
+  //   var response = await http.post(
+  //       Uri.parse(
+  //           "https://cosylab.iiitd.edu.in/api/auth/realms/bootadmin/protocol/openid-connect/token"),
+  //       headers: {
+  //         "Content-Type": "application/x-www-form-urlencoded",
+  //       },
+  //       body: jsonStr);
+  //   debugPrint(response.body);
+  //   if (response.statusCode == 200) {
+  //     var data = jsonDecode(response.body) as Map<String, dynamic>;
+  //     authToken = data['access_token'];
+  //     debugPrint("Access Token is $authToken");
+  //   } else {
+  //     debugPrint(response.statusCode.toString());
+  //   }
+  // }
 }

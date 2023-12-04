@@ -1,4 +1,5 @@
 import 'package:eatwise/constants.dart';
+import 'package:eatwise/features/dashboard/pages/recipe_detail_screen.dart';
 import 'package:eatwise/features/dashboard/widgets/carousel_widget.dart';
 import 'package:eatwise/features/dashboard/widgets/recipe_card.dart';
 import 'package:eatwise/features/dashboard/widgets/recipe_of_the_day_card.dart';
@@ -19,169 +20,151 @@ class MealPlanner extends StatefulWidget {
 }
 
 class _MealPlannerState extends State<MealPlanner> {
+  bool _isLoading = false;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     final userProvider = Provider.of<UserProvider>(context, listen: false);
+    _isLoading = true;
 
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      Provider.of<RecipeProvider>(context, listen: false).getRecipesByUserPrefs(
-        calories: userProvider.userNutrientsMap['calories'],
-        proteins: userProvider.userNutrientsMap['protein'],
-        carbohydrates: userProvider.userNutrientsMap['carbohydrates'],
-        fat: userProvider.userNutrientsMap['fat'],
-        energy: userProvider.userNutrientsMap['energy'],
-        country: userProvider.user!.likedCuisines![0],
-      );
-      Provider.of<RecipeProvider>(context, listen: false).getRecipeOfTheDay();
-      setState(() {});
+    Provider.of<RecipeProvider>(context, listen: false).getRecipesByUserPrefs(
+      calories: userProvider.userNutrientsMap['calories'],
+      proteins: userProvider.userNutrientsMap['protein'],
+      carbohydrates: userProvider.userNutrientsMap['carbohydrates'],
+      fat: userProvider.userNutrientsMap['fat'],
+      energy: userProvider.userNutrientsMap['energy'],
+      country: userProvider.user!.likedCuisines![0],
+    );
+    Provider.of<RecipeProvider>(context, listen: false).getRecipeOfTheDay();
+    setState(() {
+      _isLoading = false;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
-    // return Scaffold(
-    //   body: SafeArea(
-    //       child: Padding(
-    //     padding: EdgeInsets.symmetric(horizontal: 24.w),
-    //     child: Column(
-    //       children: [
-    //         Container(
-    //           width: double.infinity,
-    //           alignment: Alignment.center,
-    //           child: Text(
-    //             "Nutrition Plan",
-    //             style: TextStyle(
-    //               fontSize: 36.sp,
-    //               fontWeight: FontWeight.w500,
-    //               color: white,
-    //             ),
-    //           ),
-    //         ),
-    //         v(height: 10.h),
-    //         Container(
-    //           width: double.infinity,
-    //           alignment: Alignment.center,
-    //           child: Text(
-    //             "Hungry? Let's see what we have for you!",
-    //             style: TextStyle(
-    //               fontSize: 14.sp,
-    //               fontWeight: FontWeight.w400,
-    //               color: white,
-    //             ),
-    //           ),
-    //         ),
-    //         v(height: 10.h),
-    //         const Divider(
-    //           color: white,
-    //           thickness: 2,
-    //         ),
-    //         v(height: 12.h),
-    //         CarouselWidget(
-    //           recipe: recipeProvider.recipesByUserPrefs,
-    //         ),
-    //       ],
-    //     ),
-    //   )),
-    // );
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            v(height: 15.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.h),
-              child: Column(
+        child: _isLoading
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: backgroundGreen,
+                ),
+              )
+            : Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "Nutrition Plans",
-                    style: TextStyle(
-                      fontSize: 28.sp,
-                      fontWeight: FontWeight.w600,
-                      color: backgroundGreen,
+                  v(height: 15.h),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Nutrition Plans",
+                          style: TextStyle(
+                            fontSize: 28.sp,
+                            fontWeight: FontWeight.w600,
+                            color: backgroundGreen,
+                          ),
+                        ),
+                        // v(height: 11.h),
+                        const Divider(
+                          color: hintGrey,
+                          thickness: 1,
+                        ),
+                        Text(
+                          "Curated recipes for you",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                            // color: hintGrey,
+                          ),
+                        ),
+                        v(height: 8.h),
+                        Text(
+                          "Hungry? Let's see what we have for you!",
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            color: backgroundGreen,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  // v(height: 11.h),
-                  const Divider(
-                    color: hintGrey,
-                    thickness: 1,
-                  ),
-                  Text(
-                    "Curated recipes for you",
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                      // color: hintGrey,
-                    ),
-                  ),
-                  v(height: 8.h),
-                  Text(
-                    "Hungry? Let's see what we have for you!",
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      color: backgroundGreen,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // RecipeCard(recipe: recipeProvider.recipesByUserPrefs[0]),
-            SizedBox(
-              height: 195.h,
-              child: ListView.separated(
-                padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 24.w),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return RecipeCard(
-                      recipe: recipeProvider.recipesByUserPrefs[index]);
-                },
-                separatorBuilder: (context, index) {
-                  return h(width: 10.w);
-                },
-                itemCount: recipeProvider.recipesByUserPrefs.length,
-              ),
-            ),
-            v(height: 14.h),
-            Divider(
-              color: hintGrey,
-              thickness: 1,
-              indent: 24.w,
-              endIndent: 24.w,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24.h),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Recipe of the Day",
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                      // color: hintGrey,
-                    ),
-                  ),
-                  v(height: 8.h),
-                  Text(
-                    "Craving extraordinary eats. What's today's recipe?",
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                      color: backgroundGreen,
+                  // RecipeCard(recipe: recipeProvider.recipesByUserPrefs[0]),
+                  SizedBox(
+                    height: 195.h,
+                    child: ListView.separated(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 10.h, horizontal: 24.w),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => RecipeInfoScreen(
+                                      recipe: recipeProvider
+                                          .recipesByUserPrefs[index],
+                                    )));
+                          },
+                          child: RecipeCard(
+                              recipe: recipeProvider.recipesByUserPrefs[index]),
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return h(width: 10.w);
+                      },
+                      itemCount: recipeProvider.recipesByUserPrefs.length,
                     ),
                   ),
                   v(height: 14.h),
-                  RecipeOfTheDay(recipe: recipeProvider.recipeOfTheDay),
+                  Divider(
+                    color: hintGrey,
+                    thickness: 1,
+                    indent: 24.w,
+                    endIndent: 24.w,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.h),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Recipe of the Day",
+                          style: TextStyle(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w600,
+                            // color: hintGrey,
+                          ),
+                        ),
+                        v(height: 8.h),
+                        Text(
+                          "Craving extraordinary eats. What's today's recipe?",
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                            color: backgroundGreen,
+                          ),
+                        ),
+                        v(height: 14.h),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => RecipeInfoScreen(
+                                      recipe: recipeProvider.recipeOfTheDay)));
+                            },
+                            child: RecipeOfTheDay(
+                                recipe: recipeProvider.recipeOfTheDay)),
+                      ],
+                    ),
+                  )
                 ],
               ),
-            )
-          ],
-        ),
       ),
     );
   }
