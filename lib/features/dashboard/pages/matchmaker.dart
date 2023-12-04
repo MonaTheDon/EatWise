@@ -44,30 +44,31 @@ class _MatchMakerState extends State<MatchMaker> {
         padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              v(height: 20.h),
               Text(
                 "Ingredient Match Maker",
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.left,
                 style: TextStyle(
-                  fontSize: 36.sp,
+                  fontSize: 24.sp,
                   fontWeight: FontWeight.w500,
-                  color: white,
+                  color: Color(0xffe417E45),
                 ),
               ),
-              v(height: 10.h),
+              v(height: 5.h),
               const Divider(
-                color: white,
+                color: Color(0xffeD9D9D9),
                 thickness: 2,
               ),
-              v(height: 12.h),
+              v(height: 18.h),
               ingredientController.text.isEmpty
                   ? Text(
                       "Discover tasty pairings for your ingredient! Search and savor the flavor combo here.",
                       style: TextStyle(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w500,
-                        color: white,
+                        color: Color(0xffe417E45),
                       ),
                     )
                   : const SizedBox(),
@@ -77,9 +78,13 @@ class _MatchMakerState extends State<MatchMaker> {
                 child: TextField(
                   controller: ingredientController,
                   textAlignVertical: TextAlignVertical.center,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: white,
+                  ),
                   decoration: InputDecoration(
                       filled: true,
-                      fillColor: white,
+                      fillColor: Color(0xffe5DBB63),
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide.none,
                           borderRadius: BorderRadius.circular(8.r)),
@@ -90,7 +95,7 @@ class _MatchMakerState extends State<MatchMaker> {
                       alignLabelWithHint: true,
                       hintStyle: TextStyle(
                         fontSize: 16.sp,
-                        color: hintGrey,
+                        color: white,
                       )),
                   onChanged: (value) {
                     setState(() {});
@@ -105,7 +110,7 @@ class _MatchMakerState extends State<MatchMaker> {
               _isLoading
                   ? const Center(
                       child: CircularProgressIndicator(
-                        color: white,
+                        color: black,
                       ),
                     )
                   : entities.isNotEmpty

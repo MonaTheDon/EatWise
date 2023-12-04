@@ -15,11 +15,18 @@ class IngredientCard extends StatelessWidget {
     return Container(
       height: 60.h,
       width: 315.w,
+      margin: EdgeInsets.symmetric(horizontal: 10.w),
       padding: EdgeInsets.symmetric(
         horizontal: 12.w
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
+        boxShadow:[ BoxShadow(
+          blurRadius: 8,
+          color: Colors.grey.withOpacity(0.25),
+              offset: const Offset(4, 4),
+
+        ),],
         color: white.withOpacity(0.6)
       ),
       child: Row(
@@ -33,13 +40,25 @@ class IngredientCard extends StatelessWidget {
             FittedBox(
 
               fit: BoxFit.scaleDown,
-              child: Text("${entity.entityName}",
-                      style: TextStyle(
-                        color: darkGreen,
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w400,
+              child: SizedBox(
+                width: 125.w,
+                child: Text("${entity.entityName}",
+                 maxLines: 1,
+                 overflow: TextOverflow.ellipsis,       
+                        style: TextStyle(
+                          shadows: [
+                            Shadow(
+                              color: Colors.grey.withOpacity(0.25),
+                              blurRadius: 4.0,
+                              offset: Offset(3, 3)
+                            )
+                          ],
+                          color: darkGreen,
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
-                    ),
+              ),
             ),
                   // v(height:1.h),
               Text("${entity.category}",
