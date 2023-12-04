@@ -12,8 +12,9 @@ class RecipeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 180.h,
-      width: 150.w,
+      height: 105.h,
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: 10.w),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
@@ -24,16 +25,19 @@ class RecipeCard extends StatelessWidget {
             ),
           ],
           color: white),
-      child: Column(
+      child: Row(
         children: [
           Container(
-            height: 100.h,
+            // height: 100.h,
+            width: 150.w,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(recipe.imageUrl!),
                 fit: BoxFit.cover,
               ),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(12.r),bottomLeft: Radius.circular(12.r),),
             ),
+
           ),
           Container(
             padding: EdgeInsets.only(left: 4.w, right: 8.w),
@@ -53,7 +57,7 @@ class RecipeCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: black,
-                              fontSize: 12.sp,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
@@ -76,11 +80,13 @@ class RecipeCard extends StatelessWidget {
                         //       )
                       ],
                     ),
+                    h(width: 21.w),
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      // crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "${recipe.cookTime} mins",
+                          textAlign: TextAlign.right,
                           style: TextStyle(
                             color: black,
                             fontSize: 10.sp,
@@ -97,12 +103,13 @@ class RecipeCard extends StatelessWidget {
                     )
                   ],
                 ),
-                v(height: 2.h),
+                v(height: 8.h),
+
                 Text(
                   "Protein: ${recipe.protein?.toStringAsFixed(2) ?? 0} g",
                   style: TextStyle(
                     color: grey,
-                    fontSize: 10.sp,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -110,7 +117,7 @@ class RecipeCard extends StatelessWidget {
                   "Fat: ${recipe.fat?.toStringAsFixed(2) ?? 0} kcal",
                   style: TextStyle(
                     color: grey,
-                    fontSize: 10.sp,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -118,7 +125,7 @@ class RecipeCard extends StatelessWidget {
                   "Carbs: ${recipe.carbohydrates?.toStringAsFixed(2) ?? 0} g",
                   style: TextStyle(
                     color: grey,
-                    fontSize: 10.sp,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
