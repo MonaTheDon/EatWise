@@ -152,7 +152,14 @@ class _MealPlannerState extends State<MealPlanner> {
                           ),
                         ),
                         v(height: 14.h),
-                        RecipeOfTheDay(recipe: recipeProvider.recipeOfTheDay),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => RecipeInfoScreen(
+                                      recipe: recipeProvider.recipeOfTheDay)));
+                            },
+                            child: RecipeOfTheDay(
+                                recipe: recipeProvider.recipeOfTheDay)),
                       ],
                     ),
                   )

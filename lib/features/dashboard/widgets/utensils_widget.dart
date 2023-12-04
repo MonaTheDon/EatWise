@@ -1,15 +1,15 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:eatwise/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../constants.dart';
+import '../../../utils.dart';
 
-class IngredientsWidget extends StatelessWidget {
-  final List<String> ingredientPhrases;
-  const IngredientsWidget({
+class UtensilsWidget extends StatelessWidget {
+  final List<String> utensils;
+  const UtensilsWidget({
     Key? key,
-    required this.ingredientPhrases,
+    required this.utensils,
   }) : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class IngredientsWidget extends StatelessWidget {
           return Padding(
             padding: EdgeInsets.only(left: 12.w),
             child: Text(
-              "• ${ingredientPhrases[i]}",
+              "${i + 1}. ${utensils[i]}",
               style: TextStyle(
                 color: black,
                 fontSize: 16.sp,
@@ -33,7 +33,7 @@ class IngredientsWidget extends StatelessWidget {
         separatorBuilder: (ctx, i) {
           return v(height: 4.h);
         },
-        itemCount: ingredientPhrases.length,
+        itemCount: utensils.length,
       ),
     );
   }

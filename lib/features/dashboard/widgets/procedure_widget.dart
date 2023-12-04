@@ -23,7 +23,7 @@ class ProcedureWidget extends StatelessWidget {
             child: Text(
               "${i + 1}. ${procedure[i]}",
               style: TextStyle(
-                color: white,
+                color: black,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w400,
               ),

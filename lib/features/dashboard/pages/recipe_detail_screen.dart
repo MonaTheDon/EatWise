@@ -2,6 +2,7 @@
 import 'package:eatwise/features/dashboard/widgets/ingredients_widget.dart';
 import 'package:eatwise/features/dashboard/widgets/procedure_widget.dart';
 import 'package:eatwise/features/dashboard/widgets/review_widget.dart';
+import 'package:eatwise/features/dashboard/widgets/utensils_widget.dart';
 import 'package:eatwise/models/recipe.dart';
 import 'package:eatwise/utils.dart';
 import 'package:flutter/material.dart';
@@ -260,80 +261,122 @@ class _RecipeInfoScreenState extends State<RecipeInfoScreen> {
           v(height: 15.h),
           Row(
             children: [
-              Container(
-                alignment: Alignment.center,
-                width: size.width / 3,
-                decoration: BoxDecoration(
-                  color: white,
-                  border: const Border(
-                    bottom: BorderSide(
-                      color: backgroundGreen,
-                      width: 2,
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedOption = "cookware";
+                  });
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  width: size.width / 3,
+                  decoration: BoxDecoration(
+                    color:
+                        selectedOption == "cookware" ? backgroundGreen : white,
+                    border: const Border(
+                      bottom: BorderSide(
+                        color: backgroundGreen,
+                        width: 1,
+                      ),
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5.r),
+                      topRight: Radius.circular(5.r),
                     ),
                   ),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(5.r),
-                    topRight: Radius.circular(5.r),
-                  ),
-                ),
-                child: Text(
-                  "Cookware",
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: backgroundGreen,
+                  child: Text(
+                    "Cookware",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: selectedOption == "cookware"
+                          ? white
+                          : backgroundGreen,
+                    ),
                   ),
                 ),
               ),
-              Container(
-                alignment: Alignment.center,
-                width: size.width / 3,
-                decoration: BoxDecoration(
-                  color: backgroundGreen,
-                  border: const Border(
-                    bottom: BorderSide(
-                      color: backgroundGreen,
-                      width: 2,
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedOption = "ingredients";
+                  });
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  width: size.width / 3,
+                  decoration: BoxDecoration(
+                    color: selectedOption == "ingredients"
+                        ? backgroundGreen
+                        : white,
+                    border: const Border(
+                      bottom: BorderSide(
+                        color: backgroundGreen,
+                        width: 1,
+                      ),
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5.r),
+                      topRight: Radius.circular(5.r),
                     ),
                   ),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(5.r),
-                    topRight: Radius.circular(5.r),
-                  ),
-                ),
-                child: Text(
-                  "Ingredients",
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: white,
+                  child: Text(
+                    "Ingredients",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: selectedOption == "ingredients"
+                          ? white
+                          : backgroundGreen,
+                    ),
                   ),
                 ),
               ),
-              Container(
-                alignment: Alignment.center,
-                width: size.width / 3,
-                decoration: BoxDecoration(
-                  color: white,
-                  border: const Border(
-                    bottom: BorderSide(
-                      color: backgroundGreen,
-                      width: 2,
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedOption = "instructions";
+                  });
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  width: size.width / 3,
+                  decoration: BoxDecoration(
+                    color: selectedOption == "instructions"
+                        ? backgroundGreen
+                        : white,
+                    border: const Border(
+                      bottom: BorderSide(
+                        color: backgroundGreen,
+                        width: 1,
+                      ),
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5.r),
+                      topRight: Radius.circular(5.r),
                     ),
                   ),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(5.r),
-                    topRight: Radius.circular(5.r),
-                  ),
-                ),
-                child: Text(
-                  "Instructions",
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: backgroundGreen,
+                  child: Text(
+                    "Instructions",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: selectedOption == "instructions"
+                          ? white
+                          : backgroundGreen,
+                    ),
                   ),
                 ),
               )
             ],
-          )
+          ),
+          // IngredientsWidget(ingredientPhrases: ingredientPhrases),
+          // ProcedureWidget(procedure: procedure),
+          // UtensilsWidget(utensils: widget.recipe.utensils ?? []),
+          selectedOption == "cookware"
+              ? UtensilsWidget(utensils: widget.recipe.utensils ?? [])
+              : selectedOption == "ingredients"
+                  ? IngredientsWidget(ingredientPhrases: ingredientPhrases)
+                  : selectedOption == "instructions"
+                      ? ProcedureWidget(procedure: procedure)
+                      : Container(),
         ],
       )),
     );
