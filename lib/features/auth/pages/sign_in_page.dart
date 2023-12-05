@@ -1,6 +1,7 @@
 import 'package:eatwise/constants.dart';
 import 'package:eatwise/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
@@ -18,6 +19,21 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    authProvider.loadAuthState().then((appUser) {
+      if (appUser != null) {
+        Provider.of<UserProvider>(context, listen: false).appUser = appUser;
+        SchedulerBinding.instance!.addPostFrameCallback((_) {
+          GoRouter.of(context).go("/main-page");
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

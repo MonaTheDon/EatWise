@@ -34,15 +34,19 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String?> loadAuthState() async {
+  Future<AppUser?> loadAuthState() async {
     var _prefs = await SharedPreferences.getInstance();
     var uid = _prefs.getString("uid");
+    if (uid != null) {
+      _appUser = await getUser(uid);
+    }
     // _isAuthenticated = _prefs.getBool("isAuthenticated") ?? false;
     // if (_isAuthenticated) {
     //   var uid = _prefs.getString("uid");
     // }
     // notifyListeners();
-    return uid;
+    // return uid;
+    return _appUser;
   }
 
   static Future<void> registerUser(AppUser user) async {

@@ -70,6 +70,10 @@ class _LeftOversState extends State<LeftOvers> {
                 child: TextField(
                   controller: ingredientController,
                   textAlignVertical: TextAlignVertical.center,
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: white,
+                  ),
                   decoration: InputDecoration(
                       filled: true,
                       fillColor: Color(0xffe5DBB63),

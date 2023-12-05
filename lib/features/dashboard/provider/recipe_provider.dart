@@ -49,4 +49,8 @@ class RecipeProvider with ChangeNotifier {
     _recipeOfTheDay = await DashboardRepository.getRecipeOfTheDay();
     notifyListeners();
   }
+
+  Future<void> addRecipeToFav(Recipe recipe, String uid) {
+    return DashboardRepository.addRecipeToFavourites(recipe, uid);
+  }
 }

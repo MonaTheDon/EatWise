@@ -16,64 +16,69 @@ class RecipeOfTheDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 60.h,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.r),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            blurRadius: 8,
-            color: Colors.black.withOpacity(0.25),
-            offset: const Offset(4, 4),
-          )
-        ],
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 80.w,
+    return recipe.recipeId == null
+        ? const Center(
+            child: CircularProgressIndicator(
+            color: backgroundGreen,
+          ))
+        : Container(
+            height: 60.h,
+            width: double.infinity,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8.r),
-                bottomLeft: Radius.circular(8.r),
-              ),
-              image: DecorationImage(
-                image: NetworkImage(recipe.imageUrl!),
-                fit: BoxFit.cover,
-              ),
+              borderRadius: BorderRadius.circular(8.r),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  blurRadius: 8,
+                  color: Colors.black.withOpacity(0.25),
+                  offset: const Offset(4, 4),
+                )
+              ],
             ),
-          ),
-          h(width: 10.w),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 200.w,
-                child: Text(
-                  recipe.recipeName ?? "",
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    // fontWeight: FontWeight.w500,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 80.w,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8.r),
+                      bottomLeft: Radius.circular(8.r),
+                    ),
+                    image: DecorationImage(
+                      image: NetworkImage(recipe.imageUrl!),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              Text(
-                "Worth having this dish!",
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  color: Colors.grey,
-                ),
-              )
-            ],
-          )
-        ],
-      ),
-    );
+                h(width: 10.w),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: 200.w,
+                      child: Text(
+                        recipe.recipeName ?? "",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          // fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      "Worth having this dish!",
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        color: Colors.grey,
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          );
   }
 }

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:eatwise/features/auth/provider/auth_provider.dart';
 import 'package:eatwise/models/entity.dart';
 import 'package:eatwise/constants.dart';
 import 'package:eatwise/models/recipe.dart';
@@ -7,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class DashboardRepository {
+  final usersDb = FirebaseFirestore.instance.collection('users');
+
   static Future<List<Recipe>> getRecipesAccordingToUserPrefs({
     required List<int> calories,
     required List<int> proteins,
@@ -186,6 +190,10 @@ class DashboardRepository {
             "For recipe of the day ${recipe.recipeName.toString()} ${recipe.imageUrl.toString()}}")
         : debugPrint("No recipes found");
     return recipe;
+  }
+
+  static Future<void> addRecipeToFavourites(Recipe recipe, String uid) async {
+    usersDB.doc(uid).collection("favourites").add(recipe.toMap());
   }
 
   // static Future<void> refreshAccessToken() async {
