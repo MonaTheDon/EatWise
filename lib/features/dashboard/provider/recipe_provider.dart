@@ -6,12 +6,14 @@ import '../repository/dashboard_repository.dart';
 class RecipeProvider with ChangeNotifier {
   List<Recipe> _recipesByUserPrefs = [];
   List<Recipe> _recipeWithIng = [];
+  List<Recipe> _favouriteRecipes = [];
 
   Recipe _recipeById = Recipe();
   Recipe _recipeOfTheDay = Recipe();
 
   List<Recipe> get recipeWithIng => _recipeWithIng;
   List<Recipe> get recipesByUserPrefs => _recipesByUserPrefs;
+  List<Recipe> get favouriteRecipes => _favouriteRecipes;
 
   Recipe get recipeById => _recipeById;
   Recipe get recipeOfTheDay => _recipeOfTheDay;
@@ -50,7 +52,15 @@ class RecipeProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addRecipeToFav(Recipe recipe, String uid) {
-    return DashboardRepository.addRecipeToFavourites(recipe, uid);
+  Future<void> addRecipeToFav(Recipe recipe, String uid) async {
+    await DashboardRepository.addRecipeToFavourites(recipe, uid);
+    _favouriteRecipes.add(recipe);
+    notifyListeners();
+  }
+
+  Future<void> removeRecipeFromFav(Recipe recipe, String uid) async {
+    await DashboardRepository.removeRecipeFromFavourites(recipe, uid);
+    _favouriteRecipes.remove(recipe);
+    notifyListeners();
   }
 }

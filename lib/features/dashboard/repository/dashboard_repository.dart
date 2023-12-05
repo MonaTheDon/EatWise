@@ -193,7 +193,34 @@ class DashboardRepository {
   }
 
   static Future<void> addRecipeToFavourites(Recipe recipe, String uid) async {
-    usersDB.doc(uid).collection("favourites").add(recipe.toMap());
+    await usersDB.doc(uid).collection("favourites").add(recipe.toMap());
+  }
+
+  static Future<List<Recipe>> getFavourites(String uid) async {
+    List<Recipe> recipes = [];
+    final response = await usersDB.doc(uid).collection("favourites").get();
+    if (response.docs.isNotEmpty) {
+      for (int i = 0; i < response.docs.length; i++) {
+        recipes.add(Recipe.fromMap(response.docs[i].data()));
+      }
+    }
+    return recipes;
+  }
+
+  static Future<void> removeRecipeFromFavourites(
+      Recipe recipe, String uid) async {
+    final response = await usersDB
+        .doc(uid)
+        .collection("favourites")
+        .where("recipeId", isEqualTo: recipe.recipeId)
+        .get();
+    if (response.docs.isNotEmpty) {
+      await usersDB
+          .doc(uid)
+          .collection("favourites")
+          .doc(response.docs.first.id)
+          .delete();
+    }
   }
 
   // static Future<void> refreshAccessToken() async {

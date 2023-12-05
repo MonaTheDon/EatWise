@@ -7,8 +7,11 @@ import 'package:eatwise/models/recipe.dart';
 import 'package:eatwise/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
+import '../../auth/provider/user_provider.dart';
+import '../provider/recipe_provider.dart';
 import '../repository/dashboard_repository.dart';
 
 class RecipeInfoScreen extends StatefulWidget {
@@ -27,6 +30,7 @@ class _RecipeInfoScreenState extends State<RecipeInfoScreen> {
   List<String> procedure = [];
   bool _isIngredientPhraseLoading = false;
   bool _isProcedureLoading = false;
+  bool _isLiked = false;
 
   String selectedOption = "ingredients";
 
@@ -36,6 +40,9 @@ class _RecipeInfoScreenState extends State<RecipeInfoScreen> {
     super.initState();
     loadIngredientsWithPhrases(int.parse(widget.recipe.recipeId!));
     loadProcedure(int.parse(widget.recipe.recipeId!));
+    _isLiked = Provider.of<RecipeProvider>(context, listen: false)
+        .favouriteRecipes
+        .contains(widget.recipe);
   }
 
   void loadIngredientsWithPhrases(int id) async {
@@ -61,7 +68,8 @@ class _RecipeInfoScreenState extends State<RecipeInfoScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
+    final recipeProvider = Provider.of<RecipeProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -95,9 +103,20 @@ class _RecipeInfoScreenState extends State<RecipeInfoScreen> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.favorite_border,
+                  onPressed: () async {
+                    setState(() {
+                      _isLiked = !_isLiked;
+                    });
+                    if (_isLiked) {
+                      await recipeProvider.addRecipeToFav(
+                          widget.recipe, userProvider.user!.uid!);
+                    } else {
+                      await recipeProvider.removeRecipeFromFav(
+                          widget.recipe, userProvider.user!.uid!);
+                    }
+                  },
+                  icon: Icon(
+                    _isLiked ? Icons.favorite : Icons.favorite_border,
                     color: Colors.red,
                     size: 32,
                   ),
