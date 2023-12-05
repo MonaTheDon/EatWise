@@ -52,6 +52,11 @@ class RecipeProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getFavouriteRecipes(String uid) async {
+    _favouriteRecipes = await DashboardRepository.getFavourites(uid);
+    notifyListeners();
+  }
+
   Future<void> addRecipeToFav(Recipe recipe, String uid) async {
     await DashboardRepository.addRecipeToFavourites(recipe, uid);
     _favouriteRecipes.add(recipe);

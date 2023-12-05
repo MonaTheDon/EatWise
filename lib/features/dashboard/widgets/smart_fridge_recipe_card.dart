@@ -16,8 +16,11 @@ class SmartFridgeRecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("recipe: ${recipe.toMap()}");
+    final size = MediaQuery.of(context).size;
     return Container(
-      width: double.infinity,
+      width: size.width,
+      height: 105.h,
       decoration: BoxDecoration(
         color: white,
         borderRadius: BorderRadius.circular(12.r),

@@ -6,6 +6,7 @@ import 'package:eatwise/features/dashboard/pages/matchmaker.dart';
 import 'package:eatwise/features/dashboard/pages/leftovers.dart';
 import 'package:eatwise/features/dashboard/pages/profile.dart';
 import 'package:eatwise/features/dashboard/provider/nav_bar_provider.dart';
+import 'package:eatwise/features/dashboard/provider/recipe_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,10 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Provider.of<UserProvider>(context, listen: false).updateNutrientsMap();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    userProvider.updateNutrientsMap();
+    Provider.of<RecipeProvider>(context, listen: false)
+        .getFavouriteRecipes(userProvider.user!.uid!);
   }
 
   @override

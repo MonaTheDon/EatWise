@@ -48,8 +48,14 @@ class DashboardRepository {
     final response = await http.get(Uri.parse(
         "https://cosylab.iiitd.edu.in/rdbapi/recipeDB/searchRecipeByIngUsed/$ingString"));
     if (response.statusCode == 200) {
+      // debugPrint(jsonDecode(response.body));
       var data = jsonDecode(response.body) as List<dynamic>;
+
       for (int i = 0; i < data.length; i++) {
+        // debugPrint(data[i]['energykcal'].runtimeType.toString());
+        if (data[i]['energykcal'].runtimeType.toString() == "String") {
+          continue;
+        }
         recipes.add(Recipe.fromMap(data[i]));
       }
     } else {
@@ -201,6 +207,8 @@ class DashboardRepository {
     final response = await usersDB.doc(uid).collection("favourites").get();
     if (response.docs.isNotEmpty) {
       for (int i = 0; i < response.docs.length; i++) {
+        debugPrint(
+            "Response from getFavourites in dashboard repo \n${response.docs[i].data().toString()}");
         recipes.add(Recipe.fromMap(response.docs[i].data()));
       }
     }

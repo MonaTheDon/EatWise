@@ -1,4 +1,6 @@
 import 'package:eatwise/constants.dart';
+import 'package:eatwise/features/dashboard/pages/recipe_detail_screen.dart';
+import 'package:eatwise/features/dashboard/widgets/smart_fridge_recipe_card.dart';
 import 'package:eatwise/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_design_icons/flutter_material_design_icons.dart';
@@ -6,13 +8,32 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../auth/provider/user_provider.dart';
+import '../provider/recipe_provider.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    Provider.of<RecipeProvider>(context, listen: false)
+        .getFavouriteRecipes(userProvider.user!.uid!)
+        .then((value) {
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
+    final recipeProvider = Provider.of<RecipeProvider>(context);
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       v(height: 15.h),
       Padding(
@@ -181,6 +202,30 @@ class Profile extends StatelessWidget {
                   fontSize: 13.sp,
                   color: darkGreen,
                 ),
+              ),
+            ),
+            v(height: 16.h),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 8.w),
+              height: 105.h,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (ctx, i) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => RecipeInfoScreen(
+                                recipe: recipeProvider.favouriteRecipes[i],
+                              )));
+                    },
+                    child: SmartFridgeRecipeCard(
+                        recipe: recipeProvider.favouriteRecipes[i]),
+                  );
+                },
+                separatorBuilder: (ctx, i) {
+                  return h(width: 12.h);
+                },
+                itemCount: recipeProvider.favouriteRecipes.length,
               ),
             ),
           ]),

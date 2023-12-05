@@ -35,18 +35,18 @@ class Recipe {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'recipeId': recipeId,
-      'recipeName': recipeName,
-      'cookTime': cookTime,
+      'recipe_id': recipeId,
+      'recipe_title': recipeName,
+      'total_time': cookTime,
       'servings': servings,
-      'isVegan': isVegan,
-      'imageUrl': imageUrl,
-      'subRegion': subRegion,
-      'energy': energy,
+      'vegan': isVegan,
+      'img_url': imageUrl,
+      'sub_region': subRegion,
+      'energykcal': energy,
       'protein': protein,
       'calories': calories,
       'fat': fat,
-      'carbohydrates': carbohydrates,
+      'carbohydratesbydifference': carbohydrates,
       'utensils': utensils,
       'ingredients': ingredients,
     };
@@ -75,9 +75,12 @@ class Recipe {
       carbohydrates: map['carbohydratesbydifference'] != null
           ? map['carbohydratesbydifference'] as double
           : null,
-      utensils: map['utensils'] != null
+      utensils: (map['utensils'] != null &&
+              map['utensils'].runtimeType.toString() == "String")
           ? formatUtensils(map['utensils'] as String)
-          : null,
+          : map['utensils'] != null
+              ? List<String>.from((map['utensils'] as List<dynamic>))
+              : null,
       ingredients: map['ingredients'] != null
           ? List<String>.from((map['ingredients'] as List<dynamic>))
           : null,

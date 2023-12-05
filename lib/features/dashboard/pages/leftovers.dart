@@ -22,6 +22,7 @@ class LeftOvers extends StatefulWidget {
 
 class _LeftOversState extends State<LeftOvers> {
   final ingredientController = TextEditingController();
+  bool _isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -90,38 +91,64 @@ class _LeftOversState extends State<LeftOvers> {
                         color: white,
                       )),
                   onChanged: (value) {
-                    setState(() {});
-                    debugPrint(value);
+                    // setState(() {});
+                    // debugPrint(value);
                   },
-                  onSubmitted: (value) {
-                    recipeProvider.getRecipesbyIng(ingredientController.text);
+                  onSubmitted: (value) async {
+                    setState(() {
+                      _isLoading = true;
+                    });
+                    await recipeProvider
+                        .getRecipesbyIng(ingredientController.text);
+                    setState(() {
+                      _isLoading = false;
+                    });
                   },
                 ),
               ),
               v(height: 30.sp),
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (ctx, i) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => RecipeInfoScreen(
-                            recipe: recipeProvider.recipeWithIng[i],
+
+              _isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: backgroundGreen,
+                      ),
+                    )
+                  : recipeProvider.recipeWithIng.isEmpty
+                      ? Center(
+                          child: Text(
+                            "No Recipes Found",
+                            style: TextStyle(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.w500,
+                              color: backgroundGreen,
+                            ),
                           ),
+                        )
+                      : ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (ctx, i) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => RecipeInfoScreen(
+                                      recipe: recipeProvider.recipeWithIng[i],
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: SmartFridgeRecipeCard(
+                                  recipe: recipeProvider.recipeWithIng[i]),
+                            );
+                          },
+                          separatorBuilder: (ctx, i) {
+                            return v(height: 10.h);
+                          },
+                          itemCount:
+                              min(recipeProvider.recipeWithIng.length, 20),
                         ),
-                      );
-                    },
-                    child: SmartFridgeRecipeCard(
-                        recipe: recipeProvider.recipeWithIng[i]),
-                  );
-                },
-                separatorBuilder: (ctx, i) {
-                  return v(height: 10.h);
-                },
-                itemCount: min(recipeProvider.recipeWithIng.length, 20),
-              ),
               // SmartFridgeRecipeCard(recipe: recipeProvider.recipeWithIng[0]),
             ],
           ),
