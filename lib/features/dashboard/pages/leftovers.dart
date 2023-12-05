@@ -1,12 +1,17 @@
+import 'dart:math';
+
 import 'package:eatwise/constants.dart';
 import 'package:eatwise/features/auth/provider/user_provider.dart';
 import 'package:eatwise/features/dashboard/provider/recipe_provider.dart';
 import 'package:eatwise/features/dashboard/widgets/recipe_card.dart';
+import 'package:eatwise/features/dashboard/widgets/smart_fridge_recipe_card.dart';
 import 'package:eatwise/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+
+import 'recipe_detail_screen.dart';
 
 class LeftOvers extends StatefulWidget {
   const LeftOvers({super.key});
@@ -27,8 +32,7 @@ class _LeftOversState extends State<LeftOvers> {
   Widget build(BuildContext context) {
     final recipeProvider = Provider.of<RecipeProvider>(context);
     return Scaffold(
-      body: SafeArea(
-          child: Padding(
+      body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: SingleChildScrollView(
           child: Column(
@@ -95,18 +99,30 @@ class _LeftOversState extends State<LeftOvers> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (ctx, i) {
-                  return RecipeCard(recipe: recipeProvider.recipeWithIng[i]);
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => RecipeInfoScreen(
+                            recipe: recipeProvider.recipeWithIng[i],
+                          ),
+                        ),
+                      );
+                    },
+                    child: SmartFridgeRecipeCard(
+                        recipe: recipeProvider.recipeWithIng[i]),
+                  );
                 },
-                separatorBuilder: (ctx,i){
-                  return v(height: 5.h);
+                separatorBuilder: (ctx, i) {
+                  return v(height: 10.h);
                 },
-                itemCount: recipeProvider.recipeWithIng.length,
+                itemCount: min(recipeProvider.recipeWithIng.length, 20),
               ),
-              
+              // SmartFridgeRecipeCard(recipe: recipeProvider.recipeWithIng[0]),
             ],
           ),
         ),
-      )),
+      ),
     );
   }
 }

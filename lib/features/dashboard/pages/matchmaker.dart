@@ -39,8 +39,7 @@ class _MatchMakerState extends State<MatchMaker> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Padding(
+      body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.w),
         child: SingleChildScrollView(
           child: Column(
@@ -131,7 +130,7 @@ class _MatchMakerState extends State<MatchMaker> {
             ],
           ),
         ),
-      )),
+      ),
     );
     ;
   }

@@ -30,7 +30,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      extendBodyBehindAppBar: true,
+      // extendBodyBehindAppBar: true,
       body: Consumer<NavBarProvider>(builder: (context, navBarProvider, child) {
         return IndexedStack(
           index: navBarProvider.currentIndex,
@@ -42,13 +42,16 @@ class _MainPageState extends State<MainPage> {
           ],
         );
       }),
+      // body: Container(
+      //   color: backgroundGreen,
+      // ),
       bottomNavigationBar: Consumer<NavBarProvider>(
         builder: (context, navBarProvider, child) {
           return SizedBox(
             height: 110.h,
-            // width: 200.w,
             child: DotNavigationBar(
               // margin: EdgeInsets.zero,
+              margin: const EdgeInsets.only(left: 10, right: 10),
               boxShadow: [
                 BoxShadow(
                   blurRadius: 8,
