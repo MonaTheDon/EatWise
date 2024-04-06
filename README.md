@@ -1,4 +1,4 @@
-# EatWise
+# EatWise (1st Prize IIITD Hackathon)
 A nutrition-focused Flutter mobile application
 
 ## Problem Statement
